@@ -1,5 +1,5 @@
 %\documentclass[a4paper]{report}
-\documentclass[a4paper,draft]{report}
+\documentclass[a4paper]{report}
 
 %BEFORE SUBMISSION DO THESE:
 % * deactivate all \includeonly
@@ -25,6 +25,9 @@
 \usepackage[super,sort&compress,comma]{natbib} 
 %\makeatletter %\renewcommand\@biblabel[1]{#1.} %\makeatother %uncomment these for "1." style bib
 \usepackage{titlesec}
+\usepackage{siunitx}
+\usepackage{notoccite} %stops citations in captions ruining everything
+\usepackage{float}
 
 \titleformat{\chapter}[block]
   {\normalfont\huge\bfseries}{\thechapter}{1em}{\huge}
