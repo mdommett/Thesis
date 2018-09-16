@@ -12,8 +12,11 @@
 \usepackage[left=40mm,right=30mm]{geometry}
 \usepackage{ifdraft}
 \usepackage{amsmath}
+\usepackage{braket}
 \usepackage{tgtermes} % font
+\usepackage{comment}
 \usepackage{amssymb}
+\usepackage{bm}%bold math symbols
 \usepackage{rotating}
 \usepackage{hyperref}
 \usepackage{textcomp}
@@ -30,7 +33,8 @@
 \usepackage{siunitx}
 \usepackage{notoccite} %stops citations in captions ruining everything
 \usepackage{float}
-
+\usepackage[version=4]{mhchem} %chemistry formulae
+\usepackage{epigraph}
 \titleformat{\chapter}[block]
   {\normalfont\huge\bfseries}{\thechapter}{1em}{\huge}
 \titlespacing*{\chapter}{0pt}{*0}{2em}
@@ -91,10 +95,9 @@ Submitted in partial fulfillment of the requirements\\ of the Degree of Doctor o
 
 \setcounter{page}{3}
 
-\include{acknowledgements}
-
 \include{license}
-
+\include{acknowledgements}
+\include{epigraph}
 \tableofcontents
 \listoffigures
 \listoftables
