@@ -10,6 +10,7 @@
 % * make sure the bibliog doesn't have ugly urls in
 
 \usepackage[left=40mm,right=30mm]{geometry}
+\usepackage[printonlyused]{acronym}
 \usepackage{ifdraft}
 \usepackage{amsmath}
 \usepackage{braket}
@@ -47,7 +48,6 @@
 \lfoot{}
 \cfoot{}
 \rhead{\thepage}
-
 \begin{document}
 
 \setlength{\TPHorizModule}{200mm} 
@@ -98,12 +98,13 @@ Submitted in partial fulfillment of the requirements\\ of the Degree of Doctor o
 \include{license}
 \include{acknowledgements}
 \include{epigraph}
-\tableofcontents
 \listoffigures
 \listoftables
-
 \include{zabbreviations}
+\tableofcontents
 
+
+%\include{zabbreviations}
 \include{Intro/intro}
 
 \appendix
