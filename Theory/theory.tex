@@ -1,8 +1,8 @@
 \chapter{Chemistry on a Computer}
 \newcommand{\schro}{Schr\"{o}dinger}
 \label{chapter:theory}
-\section{Quantum Mechanics and Chemistry}\label{section: theory}
-\subsection{Overview}\label{section: theory_overview}
+\section{Quantum Mechanics and Chemistry}\label{section: QM}
+\subsection{Overview}\label{section: QM_overview}
 The development of quantum mechanics in the early 20th century armed scientists with the tools to calculate the microscopic properties of matter. In chemistry, the postulates of quantum mechanics can be applied to calculate relative energies of molecules, molecular geometries, ratios of products of chemical reactions, transition states, spectra, and any other phenomenon of interest. However, whilst in principle any property can be calculated exactly by the \schro{} equation, the analytical solution is only obtainable for systems with one electron. For systems larger than this, and therefore anything of observable chemical relevance, the computational expense on even modern computer architecture is intractable. 
 
 To overcome this, a number of approximations are used field of computational chemistry. In general, as the number of atoms one wants to model increases, qualitative nature of the result also increases. Computational chemistry methods can generally be split into the types of approximations made and the number of atoms the method wishes to treat. In biophysical process and the modelling of proteins on the scale of tens of thousands of atoms, quantum mechanics (and electrons) are ignored completely. Forcefields are used to calculate the energy corresponding to a set of atomic coordinates in what are known as the \ac{MM} class of methods. The interactions between atoms are defined by analytical potentials, such as for bond stretches, bends, and angles, and are parameterised for different types of molecules using more accurate methods. This procedure is time-consuming and makes the forcefield specific to the systems it was fitted to, but enables computationally facile access to molecular geometries and properties of large systems.
@@ -10,14 +10,14 @@ To overcome this, a number of approximations are used field of computational che
 At the other end of the scale, for systems of typically less than 500-1000 atoms, the electronic structure is included through wavefunction and \ac{DFT} techniques. For the applications involved in this thesis, involving photoinduced phenomena, the activity of the electrons is paramount, and as such it is these methods which are utilised herein. In the next sections, the importance of the \schro{} equation shall be established, which along with the Born-Oppenheimer approximation enables the calculation of electronic properties through the simplest wavefunction method, the \ac{HF} method. 
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
-\subsection{The \schro{} Equation}\label{section: theory_schrodinger}
+\subsection{The \schro{} Equation}\label{section: QM_schrodinger}
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
 The wavefunction $\Psi$ contains all the information about the quantum state of the system at a position and time. As Newton's second law ($\bm{\mathrm{F}}=m\bm{\mathrm{a}}$) gives a classical particle's position and moment at each time period, thus describing it's classical state, so the time-dependent \schro{} equation does for wavefunction, and has the general form
 \begin{equation}\label{equation: td-schro}
-    i\hbar{}\frac{\partial \Psi(r,t)}{\partial t}=\hat{H}\Psi(r,t)
+    i\hbar{}\frac{\partial \Psi(\bm{R},\bm{r},t)}{\partial t}=\hat{H}\Psi(\bm{R},\bm{r},t)
 \end{equation}
-where $\hbar=\frac{h}{2\pi}$ and $\hat{H}$ is the Hamiltonian operator. Separating the spatial ($r$) part from the temporal ($t$) part of differential time-dependent \schro{} equation yields the time-dependent version of the \schro{} equation, which using the bra-ket notation of Dirac is
+where $\hbar=\frac{h}{2\pi}$ and $\hat{H}$ is the Hamiltonian operator for electrons in $\bm{r}$ and nuclei in $\bm{R}$. Separating the spatial part from the temporal part of differential time-dependent \schro{} equation yields the time-dependent version of the \schro{} equation, which using the bra-ket notation of Dirac is
 \begin{equation}\label{equation: ti-schro}
    \hat{H}\ket{\Psi}=E\ket{\Psi}.
 \end{equation}
@@ -34,7 +34,7 @@ is required, corresponding to a wavefunction describing the electronic state.\ci
 In the hydrogen atom, the $\hat{V}_{e-e}$ and $\hat{V}_{n-n}$ can be neglected since there is only one proton and one electron, and the exact solution for the energy can be calculated since the wavefunction can be constructed analytically. However, for larger systems with many electrons and nuclei, Equation \ref{equation: ti-schro} cannot be solved. As such, a number of approximations must be made. The most fundamental of these is Born-Oppenheimer approximation, which shall be introduced in the next section.
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
-\subsection{The Born-Oppenheimer Approximation}\label{section: theory_bornoppenheimer}
+\subsection{The Born-Oppenheimer Approximation}\label{section: QM_bornoppenheimer}
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
 Separation of variables is a key concept in quantum chemistry, where a complex problem is broken down into constituent parts. This method is used to simply the solving of Equation \ref{equation: ti-schro} by separating the electronic terms from the nuclear terms. This is rooted in the fact that the nuclei are vastly heavier than electrons, and so it can be approximated that the nuclei are static with respect to the electrons. Equation \ref{equation: ti-schro} is solved, then, in two steps. First, the electronic structure is solved with ``clamped" nuclei, resulting in an electronic energy which is a parametric function of the nuclear coordinates. By concentrating on just the electronic terms, the \textit{electronic} Hamiltonian $\hat{H}_{e}$ becomes
@@ -45,10 +45,17 @@ and the electronic \schro{} equation is then
 \begin{equation}\label{equation: ti-schro-el}
    \hat{H}_{e}\ket{\Phi}=E_{e}\ket{\Phi}
 \end{equation}
-where $\Phi$ is the electronic wavefunction. In similar fashion, the nuclear wavefunction is solved for the nuclei in the average field of the electrons. The nuclear motion is thus determined by the electronic energy, and the nuclei move on a \ac{PES}. The total wavefunction is a product of the electronic and nuclear wavefunctions. Whilst the Born-Oppenheimer approximation helps divide the problem, solving the electronic problem exactly for many electron systems is impossible. The \acf{HF} method is the fundamental quantum chemical approach to solve the many electron problem.
+where $\Phi$ is the electronic wavefunction. In similar fashion, the nuclear wavefunction $\Theta$ is solved for the nuclei in the average field of the electrons. 
+\begin{comment}This is done for each of $I$ electronic states, and the total wavefunction $\Psi$ is reconstructed from the the combination of the electron and nuclear parts in the Born-Huang expansion
+\begin{equation}
+    \Psi(\bm{R},\bm{r})=\sum_{I}\Theta_{I}(\bm{R})\Phi_{I}(\bm{r,R}).
+\end{equation}
+\end{comment}
+The nuclear motion is thus determined by the electronic energy, and the nuclei move on a \ac{PES}. The total wavefunction is a product of the electronic and nuclear wavefunctions. Whilst the Born-Oppenheimer approximation helps divide the problem, solving the electronic problem exactly for many electron systems is impossible. The \acf{HF} method is the fundamental quantum chemical approach to solve the many electron problem.
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
-\subsection{The Hartee-Fock Method}\label{section: theory_HF}
+\section{Quantum Chemical Methods}\label{section: methods}
+\subsection{The Hartee-Fock Method}\label{section: methods_HF}
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
 In the \ac{HF} method, the intractable $N$-electron wavefunction $\Phi$ is simplified to be a product of $N$, one-electron wavefunctions $\chi$,
@@ -108,7 +115,7 @@ The Roothaan equations are then used to solve Equation \ref{equation: Fock-opera
 \begin{equation}
     \bm{FC}={\bm{SC\epsilon}}
 \end{equation}
-where $\bm{F}$ is the Fock matrix containing the elements from the Fock operator, $\bm{C}$ contains the expansion coefficients from Equation \ref{equation: expansion} and $\bm{S}$ is the overlap matrix containing the overlaps of atomic orbitals ($\bra{\phi_{i}}\ket{\phi_{j}}$). By diagonalising the Fock matrix, $\epsilon$ is a diagonal matrix containing the orbital energies. \ac{HF} is commonly named the self-consistent field approximation, since the Roothaan equations are solved until self-consistency is reached.
+where $\bm{F}$ is the Fock matrix containing the elements from the Fock operator, $\bm{C}$ contains the expansion coefficients from Equation \ref{equation: expansion} and $\bm{S}$ is the overlap matrix containing the overlaps of atomic orbitals ($\bra{\phi_{i}}\ket{\phi_{j}}$). By diagonalising the Fock matrix, $\epsilon$ is a diagonal matrix containing the orbital energies. \ac{HF} is commonly named the \ac{SCF} approximation, since the Roothaan equations are solved until self-consistency is reached.
 
 
 The \ac{HF} method is a powerful approach to solving the electronic part of the \schro{} equation. However, it has several severe drawbacks which hinder its application and have resulted in more sophisticated methods being developed to address the shortcomings within. The most serious of these for ground state, closed-shell systems is the correlation problem. While electrons of parallel spin have the required exchange correlation, the Coulomb correlation is completely neglected since each electron sees only an average field of the other electrons. In reality, the motion of one electron is dependent on the motion of each of the other electrons (Figure \ref{figure: mean-field}), and the energy of the system in \ac{HF} is overestimated in respect to the true energy. A number of methods to overcome the lack of correlation have been developed, which use the \ac{HF} method as a starting point before calculating the electron correlation. These are called post-Hartree-Fock methods, and those most relevant to the work in this thesis are discussed in the next section.
@@ -120,12 +127,12 @@ The \ac{HF} method is a powerful approach to solving the electronic part of the 
 \end{figure}
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
-\subsection{Post-Hartre-Fock Methods}\label{section: theory_postHF}
+\subsection{Post-Hartre-Fock Methods}\label{section: methods_postHF}
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
 \subsubsection{M{\o}ller-Plesset Perturbation Theory}
 %%%%%%%%%%%%%%
-Electron correlation energy can be added to the \ac{HF} energy by way of an external perturbative correction. In perturbation theory, the total Hamiltonian is divided into the zeoth-order part $\hat{H}_{0}$, which is the \ac{HF} Hamiltonian, and a perturbation $\hat{V}$, such that the eigenvalue equation becomes
+Electron correlation energy can be added to the \ac{HF} energy by way of an external perturbative correction. In perturbation theory, the total Hamiltonian is divided into the zeroth-order part $\hat{H}_{0}$, which is the \ac{HF} Hamiltonian, and a perturbation $\hat{V}$, such that the eigenvalue equation becomes
 \begin{equation}\label{equation: PT}
     \hat{H}\ket{\Phi_{i}}=(\hat{H}_{0}+\hat{V})\ket{\Phi_{i}}=\epsilon_{i}\ket{\Phi_{i}}.
 \end{equation}
@@ -144,7 +151,7 @@ After inserting Equations \ref{equation: MP2_energies} and \ref{equation: MP2_fu
 \begin{equation}
 E_{i}=E_{i}^{(0)}+\sum_{n=1}^{n}\bra{\Phi_{i}^{(0)}}\hat{V}\ket{\Phi_{i}^{(n-1)}}
 \end{equation}
-The perturbation operator $\hat{V}$ introduces the Coulomb repulsion between electrons, which when combined with excited Slater determinants, recovers the correlation energy. In most chemical applications, the method is contracted at second-order, and was initially employed by C. M{\o}ller and M.S. Plesset to obtain the correlation energy, hence the acronym \ac{MP2} is often used.\cite{Moller1934} Since MP is perturbative, the MP-calculated energy can be lower than the true energy, making it a non-variational method.
+The perturbation operator $\hat{V}$ introduces the Coulomb repulsion between electrons, which when combined with excited Slater determinants, recovers the \textit{dynamic} correlation energy. In most chemical applications, the method is contracted at second-order, and was initially employed by C. M{\o}ller and M.S. Plesset to obtain the correlation energy, hence the acronym \ac{MP2} is often used.\cite{Moller1934} Since MP is perturbative, the MP-calculated energy can be lower than the true energy, making it a non-variational method.
 %%%%%%%%%%%%%%
 \subsubsection{Coupled Cluster Theories}
 %%%%%%%%%%%%%%
@@ -160,7 +167,7 @@ where $N$ is the excitation number. So, $\hat{T}^{(1)}$, includes all single exc
 \begin{equation}
     \hat{T}^{(1)}\ket{\Phi_{0}}=\sum_{i}^{occ}\sum_{a}^{vir}t_{i}^{a}\phi_{i}^{a}
 \end{equation}
-where $\phi_{i}^{a}$ is the excitation of an electron from occupied orbital $\phi_{i}$ to virtual orbital $\phi_{a}$, and $t_{i}^{a}$ is the amplitude given to this exctitation. Substituting \ref{equation: T} into \ref{equation: cc} yields the coupled cluster wavefunction
+where $\phi_{i}^{a}$ is the excitation of an electron from occupied orbital $\phi_{i}$ to virtual orbital $\phi_{a}$, and $t_{i}^{a}$ is the amplitude given to this excitation. Substituting \ref{equation: T} into \ref{equation: cc} yields the coupled cluster wavefunction
 \begin{equation}\label{equation: CCwavefunctioncomplete}
 \ket{\Phi_{CC}}=e^{\hat{T}}\ket{\Phi_{0}}=\big[1+\hat{T}^{(1)}+(\hat{T}^{(2)}+\frac{\hat{T}^{2(1)}}{2})+(\hat{T}^{(3)}+\hat{T}^{(2)}\hat{T}^{(1)}+\frac{\hat{T}^{3(1)}}{6})\big]\Phi_{0}
 \end{equation}
@@ -170,5 +177,49 @@ In this thesis, approximate \ac{CC} methods are used to calculate excited state 
 
 As an alternative but closely related approach, propagator methods are also used to calculate excitation energies and transtion moments. The polarizer propagator introduces the effect of an external field, for instance the absorption of a photon. In the \ac{ADC2}, the polarizer propagator acts on the \ac{MP2} ground state to give excitation energies at similar accuracy but reduced computational cost compared to \ac{CC}2.
 %%%%%%%%%%%%%%
-\subsection{Multiconfigurational Methods}\label{section: theory_multiconf}
+\subsection{Multireference Methods}\label{section: methods_multiconf}
 %%%%%%%%%%%%%%
+The methods described so far use \ac{HF} as a starting point and are thus built on a single-reference wavefunction. For a closed-shell system of an even number of electrons, orbitals are all doubly occupied. However, in many chemical processes, the electronic structure will deviate from this description and the wavefunction will not be dominated by one single electronic configuration, for example in bond dissociation, excited state processes, or when metallic elements are introduced. To describe these scenarios, the ground state wavefunction must incorporate other relevant electronic configurations, where more than one Slater determinant is used in the ground state wavefunction. These are termed multireference or multiconfigurational methods, where the multireference wavefunction is expressed as
+\begin{equation}
+    \ket{\Psi}=\sum_{m}c_{m}\ket{m}
+\end{equation}
+where $\ket{m}$ is the configuration state function containing optimized molecular orbitals and $c_{m}$ is the expansion coefficient for the state. In multireference methods, the molecular orbitals are divided into subspaces, where the active space contains the oribitals from which the important configurations are taken. In the configuration interaction method, the active space contains all of the molecular orbitals, and thus all possible configurations are used in the wavefunction. This recovers the exact wavefunction, but is prohibitivaly expensive such is the vast number of possible determinants, although these can be truncated to include only single excited state. More common is to use an active space containing occupied and virtual orbitals selected for their relevance for the problem in hand, and to only include excitations from within the $m$ active orbitals for $n$  electrons. This is called the \ac{CAS} method, which when used in combination with \ac{HF} for the remaining core orbitals (outwith the active space), is denoted \ac{CAS}\ac{SCF}.\cite{Roos1980} Due to the factorial scaling with the number of active orbitals, further space decomposition methods have been introduced through \ac{RAS}, where only certain excitations are allowed. Furthermore, using a state-averaging procedure can optimize the configuration state-functions for multiple states, to describe regions of strong electronic mixing. With these methods, the key parameter is often the choice of the active space - which orbitals to include, how many of them, and how many corresponding electrons. This is not a black-box procedure and will vary depending on the system of interest, the phenomena being modelled, and the computational resources available.\cite{Lischka2018} Recently, automatic active-space selection procedures have been suggested.\cite{Stein2016,Bao2018}
+
+Electron correlation can be divided into dynamic and static contributions. By incorporating the multireference character of the wavefunction, \textit{static} correlation is recovered in solving the \schro{} equation. The dynamical part is added on top of a reference wavefunction in the form of excitations, typically through perturbation theory as discussed in \ref{section: methods_postHF}. As such, most of the total correlation can be recovered by combining a multireference wavefunction with perturbation theory. This can produce accurate ground and excited state properties for chemical systems, although with rather large computational expense.\cite{Ramos-Cordoba2017,Stein2016a} A favoured approach is to combine \ac{CAS}\ac{SCF} with a \ac{PT2} calculation (\ac{CAS}\ac{PT2}), providing an effective protocol to calculate excited states. 
+\subsection{Density Functional Theory}\label{section: theory_dft}
+%%%%%%%%%%%%%%
+The methods introduced thus far access chemical properties through some approximation of the wavefunction. An alternative approach is to disregard the wavefunction altogether and instead use the electron density to calculate microscopic properties of matter. This replaces the 3$N$ (+spin) variable of wavefunction methods by just 3 (+spin) spatial variables, allowing significant speed-up in \ac{DFT}. In 1964, Pierre Hohenberg and Walter Kohn proved a unique 1:1 correspondence exists between the ground state energy and the ground state density, and that all ground properties of a given $N$-electron system can be calculated from the ground state electron density ($\rho$).\cite{Kohn1964} The energy is thus a \textit{functional} (function of a function) of the electron density produced by a wavefunction,
+\begin{equation}
+    E[\rho]=\bra{\Psi[\rho]}\hat{T}+\hat{V}\ket{\Psi[\rho]}
+\end{equation}
+and, like in \ac{HF}, obeys the variational principle.
+
+\ac{DFT} is a mathematically exact formulation. However, the exact form of the functional relating the density to the energy is unknown. In 1965, Kohn and Sham developed a self-consistent approach to attain an approximation of the energy functional in equations that are ``analogous to the conventional Hartree and Hartree-Fock equations, and, although they also include correlation effects, they are no more difficult to solve."\cite{Kohn1965} In the Kohn-Sham system, a non-interacting system is set up to mimic the real interacting electron density. As in \ac{HF} where one-electron wavefunctions construct the N-electron wavefunction, so do single particle orbitals (Kohn-Sham orbitals $\phi$) construct the electron density,
+\begin{equation}
+    \rho=\sum_{j=1}^{N}|\psi_{j}|^{2}
+\end{equation}
+The Kohn-Sham expression for the energy functional is written in terms of the kinetic and electrostatic interactions,
+\begin{equation}
+    E[\rho]=T_{e}[\rho]+E_{ne}[\rho]+E_{ee}[\rho].
+\end{equation}
+The most straightforward term to evaluate is the nuclear-electron interaction, which can be expressed as an electrostatic potential $V_{n}$ from the nuclei acting on the electronic density, 
+\begin{equation}
+    V_{ne}[\rho]=\int{V_{n}(\bm{r})\rho(\bm{r})\mathrm{d}\bm{r}}.
+\end{equation}
+The electron-electron interaction can be separated into a classical, Coulomb-type expression and the quantum mechanical \ac{XC} part
+\begin{equation}
+    E_{ee}[\rho]=\frac{1}{2}\underbrace{\int{}\frac{1}{r_{e_{1}e_{2}}}\rho(\bm{r}_{e_{1}})\rho(\bm{r}_{e_{2}})\mathrm{d}\bm{r}_{e_{1}}\mathrm{d}\bm{r}_{e_{2}}}_\text{Classical}+\underbrace{\vphantom{ \left(\frac{a^{0.3}}{b}\right) }E_{ee}^{XC}[\rho]}_\text{Exchange-Correlation}
+\end{equation}
+The kinetic energy of the interacting system is replaced by the kinetic energy of the non-interacting system, with the correction incorporated in to the \ac{XC} functional. It is the \ac{XC} functional which contains the crux of the problem in \ac{DFT}, since the exact form is unknown. It must be approximated. Much of \ac{DFT} development is focused on developing more accurate functionals to better describe specific chemical problems.
+
+The first approximation to the functional is the \ac{LDA}. The LDA was originally proposed by Kohn and Sham in 1965 and depends only on the density at the coordinate in question. LDA approximates the molecular \ac{XC} energy by the \ac{XC} energy of a uniform electron gas. The \ac{XC} energy at a point in the molecule is then compared to a homogeneous electron gas with that density, for which the exchange can be solved analytically and the correlation is approximated through, for example, Monte-Carlo simulation.\cite{Ullrich2012} LDA works surprisingly well in structure prediction, given that the UEG has a uniform density whereas in reality the density varies with position in molecular systems. To incorporate the change of electron density with position, the \ac{GGA} functions include the density gradient, offering improved total energies, energy barriers, and geometries. Of the \ac{GGA} functionals, the PBE functional has become one of the most used in quantum chemistry.\cite{Perdew1996}
+
+Hybrid functionals improve upon the \ac{GGA}s by including a percentage of \ac{HF} exchange energy. The \ac{XC} energy is expressed as a linear combination of the \ac{DFT} derived \ac{XC} and the \ac{HF} exchange energy. The hybrid version of PBE, PBE0, incorporates exact exchange via
+\begin{equation}
+    E_{XC}^{PBE0}=\alpha{}E_{X}^{HF}+(1-\alpha{})E_{X}^{PBE}+E_{C}^{PBE}.
+\end{equation}
+
+
+Functionals introduced thus far all suffer from incorrect long-range asymptotic behaviour, where the potential falls off more rapidly than 1/$R$, on account of the self-interaction error. In \ac{HF}, the electron-electron interaction of the Hamiltonian ensures that an electron will interact with all the other electrons in the system but itself. \ac{LDA} and \ac{GGA} methods do not satisfy this requirement and electrons exhibit a direct Coulomb interaction with themselves. If 100\% exact exchange is used this error is exactly cancelled. However, since this is not present in \ac{LDA}s or \ac{GGA}s, the \ac{XC}-potential does not show the correct asymptotic behaviour, and is only partially remedied by the small percentage of \ac{HF} exchange in hybrids. At large interelectronic distances, the self-interaction is exacerbated by the incorrect asymptotic behaviour. 
+
+To remedy this, a class of functionals called \acp{RSH} has been developed. The exchange is split into short- and long-range parts, where the short-range exchange will typically be represented by a local or semi-local functional, while the long range exchange is treated by \ac{HF} exchange. The distance at which the behaviour changes is determined by the range-separation parameter. Therefore, the long-range behaviour can be corrected due to having exact exchange, and thus the self-interaction error is quelled. Whilst hybrid functionals are the most widely used in present day computational chemistry, it is certainly not a ``one size fits all" situation, since different functionals are developed to meet certain requirements, with development being ``property-driven" as much as rooted in theory. In particular, for dealing with excited states in \ac{TDDFT}, hybrid functionals have known and systamic failings, for which the \ac{RSH} functionals aim to address. This shall be discussed in X.
