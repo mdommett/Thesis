@@ -48,6 +48,22 @@
 \lfoot{}
 \cfoot{}
 \rhead{\thepage}
+
+\def\szero{S$_{0}$}
+\def\sone{S$_{1}$}
+\def\stwo{S$_{2}$}
+\def\sthree{S$_{3}$}
+\def\pipistar{$\pi\pi^{\ast}$}
+\def\pistar{$\pi^{\ast}$}
+\def\npistar{$n\pi^{\ast}$}
+\def\Estar{E$^\ast$}
+\def\Kstar{K$^\ast$}
+\DeclareTextCompositeCommand{\r}{OT1}{A}{% Angstrom!
+  \leavevmode\vbox{%
+    \offinterlineskip
+    \ialign{\hfil##\hfil\cr\char23\cr\noalign{\kern-1.15ex}A\cr}%
+  }%
+}
 \begin{document}
 
 \setlength{\TPHorizModule}{200mm} 
@@ -91,20 +107,20 @@ Submitted in partial fulfillment of the requirements\\ of the Degree of Doctor o
 \maketitle
 %%%% qmul rules say abstract must be FIRST after title page
 
-%\include{abstract}  
+\include{abstract}  
 
 \setcounter{page}{3}
 
-%\include{license}
-%\include{acknowledgements}
-%\include{epigraph}
-%\listoffigures
-%\listoftables
+\include{license}
+\include{acknowledgements}
+\include{epigraph}
+\listoffigures
+\listoftables
 \include{zabbreviations}
 \tableofcontents
-%\include{1Intro/intro}
+\include{1Intro/intro}
 \include{2Theory/theory}
-
+\include{3nonradiativedecay/3Nonradiativedecay}
 %\appendix 
 
 \bibliographystyle{rsc}
