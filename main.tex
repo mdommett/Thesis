@@ -10,6 +10,7 @@
 % * make sure the bibliog doesn't have ugly urls in
 
 \usepackage[left=40mm,right=30mm]{geometry}
+
 \usepackage[printonlyused]{acronym}
 \usepackage{ifdraft}
 \usepackage{mathtools}
@@ -23,19 +24,24 @@
 \usepackage{textcomp}
 \usepackage{gensymb} % degree symbol etc
 \usepackage{subfig} % apparently subfig is the one to use not subfigure
-\usepackage{appendix}
+\usepackage[toc,page]{appendix}
 \usepackage{tipa}
 \usepackage{clrscode}
 \usepackage{setspace}
 \usepackage[absolute]{textpos}
 \usepackage[super,sort&compress,comma]{natbib} 
 %\makeatletter %\renewcommand\@biblabel[1]{#1.} %\makeatother %uncomment these for "1." style bib
+\usepackage{array,booktabs} %tables
+\usepackage{arydshln}
+\usepackage{multirow}
+\usepackage{pdflscape}
 \usepackage{titlesec}
 \usepackage{siunitx}
 \usepackage{notoccite} %stops citations in captions ruining everything
 \usepackage{float}
 \usepackage[version=4]{mhchem} %chemistry formulae
 \usepackage{epigraph}
+\usepackage[nottoc,numbib]{tocbibind}
 \titleformat{\chapter}[block]
   {\normalfont\huge\bfseries}{\thechapter}{1em}{\huge}
 \titlespacing*{\chapter}{0pt}{*0}{2em}
@@ -64,6 +70,11 @@
     \ialign{\hfil##\hfil\cr\char23\cr\noalign{\kern-1.15ex}A\cr}%
   }%
 }
+\def\highlevel{TD-$\omega$BX-D/6-311++G(d,p)}
+\def\lowlevel{TD-$\omega$BX-D/6-31G(d)}
+
+
+\linespread{1.5}
 \begin{document}
 
 \setlength{\TPHorizModule}{200mm} 
@@ -75,7 +86,7 @@
 %\usepackage[top=0.1in, bottom=0.1in, left=0.3in, right=0.3in, paperwidth=11in, paperheight=7in]{geometry} % activate for ONSCREEN reading shape AT HOME
 %\usepackage[top=0.1in, bottom=0.1in, left=0.3in, right=0.3in, paperwidth=11in, paperheight=8.5in]{geometry} % activate for ONSCREEN reading shape AT WORK
 
-\onehalfspace{}
+
 
 % activate the appropriate shortcut, whether or not to show this in titles
 %	\providecommand{\doneit}{DONE: }
@@ -91,7 +102,7 @@
 
 % titlepage stuff
 \title{\huge
-\textbf{Modelling of Photophenomena\\ in Condensed Phase}}
+\textbf{Design Rules for Solid State Fluorescence Exploiting Excited State Intramolecular Proton Transfer}}
 \author{Michael Dommett \\
 %\\
 %PhD Thesis\\
@@ -105,25 +116,42 @@ Submitted in partial fulfillment of the requirements\\ of the Degree of Doctor o
 
 
 \maketitle
+
 %%%% qmul rules say abstract must be FIRST after title page
 
 \include{abstract}  
 
 \setcounter{page}{3}
 
-\include{license}
-\include{acknowledgements}
-\include{epigraph}
+%\include{license}%
+%\include{acknowledgements}
+%\include{epigraph}
+\tableofcontents
 \listoffigures
 \listoftables
 \include{zabbreviations}
-\tableofcontents
 \include{1Intro/intro}
-\include{2Theory/theory}
-\include{3nonradiativedecay/3Nonradiativedecay}
-%\appendix 
-
+%\include{2Theory/theory}
+%include{3nonradiativedecay/3Nonradiativedecay}
+%\include{4IntraInterInteractions/intrainterinteractions}
 \bibliographystyle{rsc}
 \bibliography{Thesis}
+%%%%%%%%%%%%%%
+% APPENDICES
+%%%%%%%%%%%%%%
+\appendix
+\appendixpage
+\setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}
+\section*{Appendix A}
+\label{appendix1}
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.9\linewidth]{Misc/HC_1_1413orbitals.pdf}
+  \caption{CASSCF space used in Chapter \ref{chapter:NRdecay}.}
+  \label{figure: CASSCF_Orbitals}
+\end{figure}
+%%%%%%%%%%%%%%
+% APPENDICES
+%%%%%%%%%%%%%%
 
 \end{document}
