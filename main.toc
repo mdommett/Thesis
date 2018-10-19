@@ -1,0 +1,7 @@
+\contentsline {chapter}{List of Figures}{4}{chapter*.2}
+\contentsline {chapter}{List of Tables}{5}{chapter*.3}
+\contentsline {chapter}{List of Abbreviations}{6}{chapter*.4}
+\contentsline {chapter}{\numberline {1}Connecting Chromophore Design with Crystal Morphorology}{7}{chapter.1}
+\contentsline {section}{\numberline {1.1}Introduction}{7}{section.1.1}
+\contentsline {chapter}{\numberline {2}Bibliography}{9}{chapter.2}
+\contentsline {chapter}{Appendices}{10}{section*.10}

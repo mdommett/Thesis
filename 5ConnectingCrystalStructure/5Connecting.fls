@@ -1,0 +1,10 @@
+PWD /Users/michaeldommett/phdwork/thesis/Thesis/5ConnectingCrystalStructure
+INPUT /usr/local/texlive/2015/texmf.cnf
+INPUT /usr/local/texlive/2015/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT 5Connecting.tex
+OUTPUT 5Connecting.log
+INPUT /usr/local/texlive/2015/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+INPUT /usr/local/texlive/2015/texmf-dist/tex/latex/base/omlcmr.fd
+INPUT /usr/local/texlive/2015/texmf-dist/tex/latex/base/omlcmr.fd
