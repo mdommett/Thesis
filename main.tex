@@ -20,7 +20,7 @@
 \usepackage{amssymb}
 \usepackage{bm}%bold math symbols
 \usepackage{rotating}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{textcomp}
 \usepackage{gensymb} % degree symbol etc
 \usepackage{subfig} % apparently subfig is the one to use not subfigure
@@ -130,10 +130,10 @@ Submitted in partial fulfillment of the requirements\\ of the Degree of Doctor o
 \listoffigures
 \listoftables
 \include{zabbreviations}
-%\include{1Intro/intro}
-%\include{2Theory/theory}
-%\include{3nonradiativedecay/3Nonradiativedecay}
-%\include{4IntraInterInteractions/intrainterinteractions}
+\include{1Intro/intro}
+\include{2Theory/theory}
+\include{3nonradiativedecay/3Nonradiativedecay}
+\include{4IntraInterInteractions/intrainterinteractions}
 \include{5ConnectingCrystalStructure/5Connecting}
 \bibliographystyle{rsc}
 \bibliography{Thesis}
@@ -150,6 +150,14 @@ Submitted in partial fulfillment of the requirements\\ of the Degree of Doctor o
   \includegraphics[width=0.9\linewidth]{Misc/HC_1_1413orbitals.pdf}
   \caption{CASSCF space used in Chapter \ref{chapter:NRdecay}.}
   \label{figure: CASSCF_Orbitals}
+\end{figure}
+\section*{Appendix B}
+\label{appendix2}
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.9\linewidth]{Misc/CAS_ORBITALS.pdf}
+  \caption[CASSCF and CASPT2 space used in Chapter \ref{chapter: Connecting}.]{HP orbitals in the active space for the CASSSCF and CASPT2 calculations, where the active space consists of 12 electrons in 11 orbitals. Orbitals shown for each of the Franck-Condon (FC), keto \sone{} (KS\textsubscript{1}) and minimum energy conical intersection (MECI) calculations.}
+  \label{figure: HP_CASSCF_Orbitals}
 \end{figure}
 %%%%%%%%%%%%%%
 % APPENDICES
